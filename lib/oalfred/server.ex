@@ -5,16 +5,21 @@ defmodule Oalfred.Server do
   plug :match
   plug :dispatch
 
+  def init _ do
+    IO.puts "starting server"
+    Oalfred.AgentStore.start_link
+  end
+
   get "/auth" do
     conn
     |> put_resp_content_type("application/json")
     |> send_resp(200, Poison.encode!(%{auth: true}))
   end
 
-  get "/users/:name" do
+  get "/users/:id" do
     conn
     |> put_resp_content_type("application/json")
-    |> send_resp(200, Poison.encode!(%{username: name}))
+    |> send_resp(200, Poison.encode!(%{name: "", id: id}))
   end
 
   get "/users" do
@@ -37,10 +42,10 @@ defmodule Oalfred.Server do
     |> send_resp(200, body)
   end
 
-  delete "/users/:name" do
+  delete "/users/:id" do
     conn
     |> put_resp_content_type("application/json")
-    |> send_resp(200, Poison.encode!(%{username: name}))
+    |> send_resp(200, Poison.encode!(%{name: "", id: id}))
   end
 
 end
