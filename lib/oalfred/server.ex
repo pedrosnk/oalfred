@@ -1,13 +1,16 @@
 defmodule Oalfred.Server do
   use Plug.Router
 
+  alias Oalfred.AgentStore, as: Store
+  alias Oalfred.User
+
   plug Plug.Logger, log: :debug
   plug :match
   plug :dispatch
 
   def init _ do
     IO.puts "starting server"
-    Oalfred.AgentStore.start_link
+    Store.start_link
   end
 
   get "/auth" do
@@ -17,9 +20,10 @@ defmodule Oalfred.Server do
   end
 
   get "/users/:id" do
+    user = Store.get_user_by_id(id)
     conn
     |> put_resp_content_type("application/json")
-    |> send_resp(200, Poison.encode!(%{name: "", id: id}))
+    |> send_resp(200, Poison.encode!(user))
   end
 
   get "/users" do

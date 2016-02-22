@@ -10,6 +10,14 @@ defmodule Oalfred.AgentStore do
     end)
   end
 
+  def get_user_by_id id do
+    Agent.get(__MODULE__, fn users ->
+      Enum.find(users, fn user ->
+        user.id == id 
+      end)
+    end)
+  end
+
   def get_user_by_email email do
     Agent.get(__MODULE__, fn users ->
       Enum.find(users, fn user ->
