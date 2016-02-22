@@ -18,20 +18,4 @@ defmodule Oalfred.AgentStore do
     end)
   end
 
-  def get_user_by_email email do
-    Agent.get(__MODULE__, fn users ->
-      Enum.find(users, fn user ->
-        user.email == email
-      end)
-    end)
-  end
-
-  def get_user_by_name name do
-    Agent.get(__MODULE__, fn users ->
-      Enum.find(users, fn user ->
-        user.email == name
-      end)
-    end)
-  end
-
 end
