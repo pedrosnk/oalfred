@@ -26,9 +26,18 @@ defmodule OalfredTest do
   test "GET /users/:id" do
     conn = conn(:get, "/users/123")
       |> Oalfred.Server.call(@otps)
-    
+
     assert conn.status == 200
     assert conn.resp_body =~ ~s(John Doe)
     assert conn.resp_body =~ ~s(123)
+  end
+
+  test "POST /user" do
+    conn = conn(:post, "/users", ~s({"name": "Bar Baz"}))
+      |> Oalfred.Server.call(@otps)
+
+    assert conn.status == 201
+    assert conn.resp_body =~ ~s(Bar Baz)
+    assert conn.resp_body =~ ~s(id)
   end
 end

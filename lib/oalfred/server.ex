@@ -34,9 +34,12 @@ defmodule Oalfred.Server do
 
   post "/users" do
     {:ok, body, _} = read_body(conn)
+    
+    user = Store.add_user Poison.decode!(body)
+
     conn
     |> put_resp_content_type("application/json")
-    |> send_resp(201, body)
+    |> send_resp(201, Poison.encode!(user))
   end
 
   put "/users" do
