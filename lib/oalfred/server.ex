@@ -42,11 +42,18 @@ defmodule Oalfred.Server do
     |> send_resp(201, Poison.encode!(user))
   end
 
-  put "/users" do
+  put "/users/:id" do
     {:ok, body, _} = read_body(conn)
+    body = Poison.decode!(body)
+
+    user = Store.get_user_by_id(id) 
+           |> Map.merge(body)
+
+    user = Store.update_user user
+    
     conn
     |> put_resp_content_type("application/json")
-    |> send_resp(200, body)
+    |> send_resp(200, Poison.encode!(user))
   end
 
   delete "/users/:id" do

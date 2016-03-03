@@ -15,6 +15,10 @@ defmodule Oalfred.AgentStore do
     user
   end
 
+  def update_user user do
+    add_user user
+  end
+
   def get_user_by_id id do
     Agent.get(__MODULE__, fn users ->
       Enum.find(users, fn user ->
