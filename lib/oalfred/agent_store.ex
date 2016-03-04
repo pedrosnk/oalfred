@@ -27,4 +27,16 @@ defmodule Oalfred.AgentStore do
     end)
   end
 
+  def destroy_user_by_id id do
+    deleted_user = false
+    Agent.update(__MODULE__, fn users ->
+      user = Enum.find(users, fn user ->
+        user.id == id
+      end)
+      deleted_user = true
+      MapSet.delete users, user
+    end)
+    deleted_user 
+  end
+
 end
