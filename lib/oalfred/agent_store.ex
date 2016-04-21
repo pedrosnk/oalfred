@@ -5,10 +5,7 @@ defmodule Oalfred.AgentStore do
   end
 
   def add_user user do
-    unless Map.has_key? user, "id" do
-      id = :random.uniform() * 1000 |> round() |> Integer.to_string()
-      user = Map.update user, "id", id, &(&1)
-    end
+    user = add_id_to_user user
     Agent.update(__MODULE__, fn users ->
       MapSet.put users, user
     end)
@@ -36,7 +33,16 @@ defmodule Oalfred.AgentStore do
       deleted_user = true
       MapSet.delete users, user
     end)
-    deleted_user 
+    deleted_user
+  end
+
+  defp add_id_to_user user do
+    case Map.has_key? user, "id" do
+      true -> user
+      false ->
+        id = :random.uniform() * 1000 |> round() |> Integer.to_string()
+        Map.update user, "id", id, &(&1)
+    end
   end
 
 end
