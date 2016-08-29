@@ -4,7 +4,7 @@ defmodule Oalfred.Mixfile do
   def project do
     [app: :oalfred,
      version: "0.0.1",
-     elixir: "~> 1.2",
+     elixir: "~> 1.3",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
      deps: deps()]
@@ -15,8 +15,8 @@ defmodule Oalfred.Mixfile do
   end
 
   defp deps do
-    [ {:poison, "~> 2.0"},
+    [ {:poison, "~> 2.2"},
       {:cowboy, "~> 1.0"},
-      {:plug, "~> 1.1"}]
+      {:plug, "~> 1.2"}]
   end
 end
